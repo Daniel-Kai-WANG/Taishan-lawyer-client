@@ -6,7 +6,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们专注于提供专业、平价的劳动纠纷和工伤事故赔偿支持。我们处理劳动合同、工资争议、职场歧视等问题，并全力维护工伤受害者的权利，包括争取公平的赔偿。此外，我们还提供免费或低成本的法律咨询，特别关注低收入和社会弱势群体，致力于使法律服务真正为普通民众所承担和受益。
       </h4>
       <Carousel
-        :itemsToShow="itemsToShow"
+        :itemsToShow="isMobile ? 1 : 3"
         :wrapAround="true"
         :autoplay="3000"
         :paginationEnabled="false"
@@ -31,15 +31,9 @@
 import { Carousel, Slide } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 import { ref, reactive, computed, watchEffect } from 'vue'
+import useMedia from 'vue-hooks-plus/es/useMedia'
 
-const isMobile = ref(window.innerWidth < 768)
-window.addEventListener('resize', () => {
-  isMobile.value = window.innerWidth < 768
-})
-
-const itemsToShow = computed(() => {
-  return isMobile.value ? 1 : 3
-})
+const isMobile = useMedia(['(max-width: 768px)'], [true], false)
 
 const generateSvgMarkup = (svg: string, color: string) => {
   let newSvg = svg.replace(/fill="[^"]+"/g, `fill="${color}"`)
@@ -225,6 +219,25 @@ const coloredSvgs = computed(() => {
     .rotating-chart {
       width: 18rem;
       padding: 0;
+      margin-top: -2.5rem;
+
+      .slide-content {
+        width: 15rem;
+        height: 8rem;
+        padding: 0;
+        background: #f9f9f9;
+        justify-content: center;
+        border-radius: 0.5rem;
+        gap: 1rem;
+      }
+
+      .active-slide {
+        display: flex;
+        width: 15rem;
+        height: 8rem;
+        padding: 0;
+        background-color: var(--secondary-color);
+      }
     }
   }
 }

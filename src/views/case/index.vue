@@ -186,4 +186,53 @@ const updatePage = (newPage: number) => {
     }
   }
 }
+
+@media (max-width: 768px) {
+  .cases-header {
+    background-position: top center;
+    background-size: auto 100%;
+    height: 12rem;
+    z-index: unset;
+    gap: 0.8rem;
+
+    .cases-title {
+      margin-top: 1.5rem;
+      font-family: Martel;
+      font-size: 1.5rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 2rem; /* 133.333% */
+      letter-spacing: 0.00625rem;
+    }
+
+    .cases-content {
+      width: 10.25rem;
+      font-family: Open Sans;
+      font-size: 0.625rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 0.875rem; /* 140% */
+      letter-spacing: 0.0125rem;
+    }
+  }
+
+  .cases-container-title {
+    width: 14rem;
+    margin-bottom: 3rem;
+
+    button {
+      font-family: Martel;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 1.5rem; /* 150% */
+      letter-spacing: 0.00625rem;
+    }
+  }
+
+  .cases-container-grid {
+    width: 20rem;
+    gap: 3rem;
+  }
+}
 </style>

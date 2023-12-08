@@ -215,4 +215,36 @@ const innerValue = computed({
     }
   }
 }
+
+@media (max-width: 768px) {
+  :deep(.el-input).input-content {
+    width: 19rem;
+  }
+
+  :deep(.el-textarea) {
+    width: 19rem !important;
+
+    .el-textarea__inner {
+      width: 252px !important;
+    }
+  }
+
+  .error-section {
+    width: 15rem !important;
+    margin-right: 0 !important;
+    margin-left: 5.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .icon-wrapper {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: flex-end;
+    width: 3.125rem;
+    top: 23px;
+    left: 18.2rem !important;
+    gap: 0.5rem;
+  }
+}
 </style>

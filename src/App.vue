@@ -3,6 +3,7 @@ import './assets/global.scss'
 import NavBar from './components/NavBar.vue'
 import FooterSection from './components/FooterSection.vue'
 import BackToTop from './components/icons/BackToTop.vue'
+import SearchModal from './components/SearchModal.vue'
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import BackToTop from './components/icons/BackToTop.vue'
   <router-view />
   <footer-section />
   <back-to-top />
+  <search-modal />
 </template>
 
 <style scoped></style>

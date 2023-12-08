@@ -28,10 +28,23 @@ import SideBar from '@/components/SideBar.vue'
     flex: 1;
   }
 
-  &-other {
+  &-sidebar {
     display: flex;
     flex-direction: column;
     width: 20.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .news {
+    flex-direction: column;
+    align-items: center;
+
+    &-sidebar {
+      align-items: center;
+      margin-top: -8rem;
+      margin-bottom: 3rem;
+    }
   }
 }
 </style>

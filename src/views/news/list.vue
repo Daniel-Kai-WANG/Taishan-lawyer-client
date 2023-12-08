@@ -6,7 +6,7 @@
       v-for="news in pagedNewsList"
       :news="news"
       :key="news.id"
-      width="40rem"
+      :width="isMobile ? '20rem' : '40rem'"
       :slice-number="126"
       :end-number="76"
     />
@@ -31,6 +31,9 @@ import Pagination from '@/components/Pagination.vue'
 import { computed, onMounted, reactive } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
 import news from '../../../JSON/newsdetail.json'
+import useMedia from 'vue-hooks-plus/es/useMedia'
+
+const isMobile = useMedia(['(max-width: 768px)'], [true], false)
 
 const pageSize = 5
 const state = reactive({
@@ -103,6 +106,21 @@ onMounted(() => {
 
   .news-pagination {
     padding-left: 20rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .news-container {
+    .news-ctitle {
+      margin-bottom: 4rem;
+      &::after {
+        width: 17.5rem;
+      }
+    }
+
+    .news-pagination {
+      padding-left: 0;
+    }
   }
 }
 </style>

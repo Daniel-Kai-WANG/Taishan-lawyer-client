@@ -3,7 +3,7 @@
     <div class="contact-container">
       <h2 class="contact-title h2-style">联系我们</h2>
       <Carousel
-        :itemsToShow="3"
+        :itemsToShow="isMobile ? 1 : 3"
         :wrapAround="true"
         :autoplay="3000"
         :paginationEnabled="false"
@@ -29,7 +29,9 @@
 import { Carousel, Slide } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 import { ref, reactive, computed, watchEffect } from 'vue'
+import useMedia from 'vue-hooks-plus/es/useMedia'
 
+const isMobile = useMedia(['(max-width: 768px)'], [true], false)
 const generateSvgMarkup = (svg: string, color: string) => {
   let newSvg = svg.replace(/fill="[^"]+"/g, `fill="${color}"`)
   newSvg = newSvg.replace(/(<path(?!.*?fill=["'])(.*?))/g, `$1 fill="${color}" $2`)
@@ -164,6 +166,7 @@ const coloredSvgs = computed(() => {
 
     &-container {
       width: 18rem;
+      gap: 0.5rem;
 
       .contact-title {
         margin-top: 0;
@@ -173,6 +176,30 @@ const coloredSvgs = computed(() => {
         font-weight: 700;
         line-height: 2rem; /* 133.333% */
         letter-spacing: 0.00625rem;
+      }
+
+      .rotating-chart {
+        padding: 1rem 0;
+        .slide-content {
+          width: 17rem;
+          gap: 1rem;
+
+          .slide-icon {
+            scale: 0.8;
+          }
+        }
+
+        .active-slide {
+          display: flex;
+          width: 17rem;
+
+          padding: 1rem 0;
+
+          .slide-icon {
+            scale: 0.8;
+            padding-top: 0.3125rem;
+          }
+        }
       }
     }
   }

@@ -100,4 +100,27 @@ const desc = computed(() => {
     }
   }
 }
+
+@media (max-width: 768px) {
+  .news-article {
+    gap: 1.3rem;
+
+    &-title {
+      width: 100%;
+      height: 1.875rem;
+      color: var(--secondary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    &-body {
+      width: 100%;
+      height: 15rem !important;
+      color: var(--text-color);
+    }
+  }
+
+  .news-link {
+    justify-content: flex-start !important;
+  }
+}
 </style>

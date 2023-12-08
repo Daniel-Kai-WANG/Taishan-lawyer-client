@@ -50,7 +50,7 @@ const displayLanguage = computed(() => {
 @media (max-width: 768px) {
   :deep(.el-dropdown) {
     max-width: 3.5rem;
-    z-index: 1;
+    // z-index: 1;
 
     .el-button {
       padding: 0;

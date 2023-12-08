@@ -179,7 +179,7 @@ const navigateToArticle = (newId: number) => {
       }
 
       &-body {
-        color: #000;
+        color: var(--text-color);
         margin-top: 0.5rem;
       }
 
@@ -191,6 +191,47 @@ const navigateToArticle = (newId: number) => {
         margin-top: 1rem;
         margin-left: 6rem;
       }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .caze {
+    flex-direction: column;
+    max-width: 20rem;
+
+    .caze-ctitle::after {
+      width: 19.5rem;
+    }
+
+    .caze-article {
+      width: 20rem;
+
+      &-title {
+        width: 100%;
+        height: auto;
+        margin-bottom: 2rem;
+      }
+
+      &-detail {
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 1.5rem;
+      }
+
+      &-image {
+        width: 17.4rem;
+        height: 12.6rem;
+        margin-left: 1rem;
+        margin-bottom: 5rem;
+      }
+    }
+    &-sidebar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: -6rem;
+      margin-bottom: 2rem;
     }
   }
 }

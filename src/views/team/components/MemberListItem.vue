@@ -91,4 +91,35 @@ const field = computed(() => {
     }
   }
 }
+
+@media (max-width: 768px) {
+  .member-link {
+    .member-block {
+      flex-direction: column;
+      gap: 2rem;
+
+      .image-block {
+        width: 11.6rem;
+        height: 11.6rem;
+        border-radius: 3.5rem;
+        box-shadow: -20px -10px 25px 0px rgba(0, 0, 0, 0.3);
+      }
+
+      .member-info {
+        align-items: center;
+      }
+
+      &::after {
+        display: none;
+        content: '';
+        position: absolute;
+        left: 17%;
+        bottom: -2rem;
+        width: 65rem;
+        height: 0.0625rem;
+        background-color: var(--secondary-color);
+      }
+    }
+  }
+}
 </style>

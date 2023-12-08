@@ -1,22 +1,15 @@
 <template>
-  <div class="search-container">
-    <font-awesome-icon
-      v-if="!searchActive"
-      class="search-outside-icon"
-      :icon="['fas', 'magnifying-glass']"
-      beat
-      @click="toggleModal"
-    />
-    <div v-if="searchActive" class="search-overlay">
+  <div class="search-container" :style="{ display: searchStore.search ? 'block' : 'none' }">
+    <div class="search-overlay">
       <div class="search-modal">
         <div class="search-box">
           <font-awesome-icon
             class="search-inside-icon"
             :icon="['fas', 'magnifying-glass']"
             beat
-            @click="handleReturn"
+            @click="performSearch"
           />
-          <input class="search-input" type="text" autofocus @keydown.enter="handleReturn" v-model="searchValue" />
+          <input class="search-input" type="text" autofocus @keydown.enter="performSearch" v-model="searchValue" />
         </div>
         <button class="search-cancel" @click="toggleModal">关闭</button>
       </div>
@@ -25,32 +18,53 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { useSearchStore } from '@/store/search'
+import { useRouter } from 'vue-router'
 
 library.add(faMagnifyingGlass)
 
+const searchStore = useSearchStore()
 const searchValue = ref('')
-const searchActive = ref(false)
+const router = useRouter()
+const searchInput = ref<HTMLInputElement | null>(null)
 
-const handleReturn = () => {
-  searchActive.value = false
-  console.log('Search:', searchValue.value)
+const performSearch = () => {
+  const trimmedValue = searchValue.value.trim()
+  if (trimmedValue) {
+    searchStore.changeSearch(false)
+    router.push({ name: 'SearchResult', query: { keyword: trimmedValue } })
+  }
 }
 
 const toggleModal = () => {
-  searchActive.value = !searchActive.value
+  searchStore.changeSearch(false)
 }
+
+onMounted(() => {
+  watch(
+    () => searchStore.search,
+    (newVal) => {
+      if (newVal && searchInput.value instanceof HTMLInputElement) {
+        searchInput.value.focus()
+      }
+    },
+  )
+})
 </script>
 
 <style lang="scss" scoped>
 .search-container {
   display: flex;
-  position: relative;
+  position: fixed;
   flex-direction: row;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
 
   .search-outside-icon {
     font-size: 1rem;
@@ -59,14 +73,10 @@ const toggleModal = () => {
   }
 
   .search-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: absolute;
+    inset: 0;
     display: flex;
     justify-content: center;
-    // align-items: center;
     backdrop-filter: blur(5px);
     background-color: rgba(0, 0, 0, 0.5);
 
@@ -88,19 +98,19 @@ const toggleModal = () => {
         .search-inside-icon {
           position: absolute;
           top: 35%;
-          left: 2%;
+          left: 5%;
           justify-content: center;
           align-items: center;
           font-size: 1rem;
           cursor: pointer;
-          z-index: 3;
+          z-index: 999;
         }
         .search-input {
           flex: 1;
           height: 100%;
           width: 100%;
           background-color: transparent;
-          z-index: 2;
+          z-index: 998;
           caret-color: var(--photo-background);
           font-weight: bold;
           color: var(--photo-background);

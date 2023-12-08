@@ -5,7 +5,7 @@
       <InputResult
         label="姓名"
         prop="name"
-        placeholder="请输入您的姓名/称谓"
+        :placeholder="isMobile ? '' : '请输入您的姓名/称谓'"
         v-model="ruleForm.name"
         :rules="[
           { required: true, message: '姓名不能为空', trigger: 'blur' },
@@ -18,7 +18,7 @@
         @input="ruleForm.phone = ruleForm.phone.replace(/\D/g, '')"
         label="电话"
         prop="phone"
-        placeholder="请输入您的手机号"
+        :placeholder="isMobile ? '' : '请输入您的手机号'"
         v-model="ruleForm.phone"
         :rules="[
           { required: true, message: '手机号不能为空', trigger: 'blur' },
@@ -36,7 +36,7 @@
       <InputResult
         label="邮箱"
         prop="email"
-        placeholder="请输入您的正确的邮箱地址"
+        :placeholder="isMobile ? '' : '请输入您的正确的邮箱地址'"
         v-model="ruleForm.email"
         :required="false"
         :rules="[{ pattern: EMAIL, message: '请填入正确的邮箱', trigger: 'blur' }]"
@@ -46,7 +46,7 @@
         label="内容"
         type="textarea"
         prop="content"
-        placeholder="请输入您想咨询的问题"
+        :placeholder="isMobile ? '' : '请输入您想咨询的问题'"
         v-model="ruleForm.content"
         :rules="[{ required: true, message: '请输入内容', trigger: 'blur' }]"
       >
@@ -105,8 +105,10 @@ import { ElForm, ElMessage, type FormInstance } from 'element-plus'
 import { FormState } from '@/typings'
 import InputResult from '@/components/InputResult.vue'
 import { PHONE, EMAIL, NAME } from '@/utils/regexps'
+import useMedia from 'vue-hooks-plus/es/useMedia'
 
-// Reactive state for the form data and input statuses
+const isMobile = useMedia(['(max-width: 768px)'], [true], false)
+
 const ruleForm = reactive<FormState>({
   name: '',
   phone: '',
@@ -229,7 +231,7 @@ const enableSubmit = computed(() => {
       align-items: center;
       border-radius: 2.3125rem;
       border: 2px solid #000;
-      background-color: var(--light-background-color);
+      background-color: var(--photo-background);
 
       span {
         color: var(--text-color);
@@ -246,14 +248,14 @@ const enableSubmit = computed(() => {
         background-color: var(--muted-color);
         border: 2px solid var(--muted-color);
         span {
-          color: var(--light-text-color);
+          color: var(--photo-background);
         }
 
         &:hover {
           background-color: var(--muted-color);
           border: 2px solid var(--muted-color);
           span {
-            color: var(--light-text-color);
+            color: var(--photo-background);
           }
         }
       }
@@ -262,11 +264,11 @@ const enableSubmit = computed(() => {
         background-color: var(--primary-color);
         border: 2px solid var(--primary-color);
         span {
-          color: var(--light-text-color);
+          color: var(--photo-background);
         }
 
         &:hover {
-          background-color: var(--light-background-color);
+          background-color: var(--photo-background);
           border: 2px solid var(--primary-color);
           span {
             color: var(--primary-color);
@@ -323,7 +325,7 @@ const enableSubmit = computed(() => {
     }
 
     &-message {
-      color: #000;
+      color: var(--text-color);
       width: 26.875rem;
     }
   }
@@ -377,6 +379,178 @@ const enableSubmit = computed(() => {
         display: flex;
         flex-direction: row;
         gap: 6rem;
+
+        button {
+          display: flex;
+          padding: 0.65rem 2.5rem;
+          align-items: center;
+          border-radius: 2.3rem;
+          border: 1px solid var(--secondary-color);
+          text-align: center;
+        }
+
+        .reset-confirm-btn {
+          color: var(--photo-background);
+          background-color: var(--secondary-color);
+        }
+        .reset-cancel-btn {
+          color: var(--secondary-color);
+          background-color: var(--photo-background);
+        }
+      }
+
+      .submit-confirm-btn {
+        display: flex;
+        padding: 0.65rem 2.5rem;
+        align-items: center;
+        border-radius: 2.3rem;
+        border: 1px solid var(--secondary-color);
+        text-align: center;
+        color: var(--photo-background);
+        background-color: var(--secondary-color);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .contact {
+    margin-bottom: 5rem;
+
+    .contact-title {
+      padding: 3rem 0;
+    }
+    :deep(.el-form) {
+      width: 22rem;
+      margin-right: 1rem !important;
+
+      .el-form-item {
+        width: 100% !important;
+      }
+    }
+
+    :deep(.el-select) {
+      border: none;
+      width: 6rem !important;
+      box-sizing: border-box;
+      .el-input__inner {
+        width: 5rem !important;
+      }
+    }
+
+    :deep(.el-input__suffix) {
+      margin-left: -1rem;
+    }
+
+    .btn-section {
+      :deep(.el-form-item__content) {
+        width: 22rem !important;
+        flex-direction: row;
+        gap: 1rem !important;
+        margin-top: 2rem;
+        margin-left: 1rem !important;
+
+        .submit-btn {
+          width: 7rem !important;
+          border: 2px solid var(--text-color);
+          background-color: var(--photo-background);
+
+          span {
+            font-family: Montserrat;
+            font-size: 1.125rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 1.875rem;
+            letter-spacing: 0.2px;
+          }
+
+          &:disabled {
+            background-color: var(--muted-color);
+            border: 2px solid var(--muted-color);
+            span {
+              color: var(--photo-background);
+            }
+
+            &:hover {
+              background-color: var(--muted-color);
+              border: 2px solid var(--muted-color);
+              span {
+                color: var(--photo-background);
+              }
+            }
+          }
+
+          &:not(:disabled) {
+            background-color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            span {
+              color: var(--photo-background);
+            }
+
+            &:hover {
+              background-color: var(--photo-background);
+              border: 2px solid var(--primary-color);
+              span {
+                color: var(--primary-color);
+              }
+            }
+          }
+        }
+
+        .reset-btn {
+          width: 7rem !important;
+
+          span {
+            font-family: Montserrat;
+            font-size: 1.125rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 1.875rem;
+            letter-spacing: 0.2px;
+          }
+        }
+      }
+    }
+
+    .contact-attention {
+      width: 22rem;
+      margin-left: 1rem;
+
+      svg {
+        width: 1.5rem;
+      }
+
+      &-message {
+        color: var(--text-color);
+        width: 19rem;
+        font-family: Open Sans;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 1.5rem; /* 171.429% */
+        letter-spacing: 0.0125rem;
+      }
+    }
+
+    .contact-modal {
+      width: 20rem;
+      height: 17rem;
+
+      .modal-content {
+        h3 {
+          margin-bottom: 1rem;
+        }
+
+        h5 {
+          width: 14.8rem;
+          margin-bottom: 1rem;
+        }
+      }
+
+      .modal-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 3rem;
 
         button {
           display: flex;

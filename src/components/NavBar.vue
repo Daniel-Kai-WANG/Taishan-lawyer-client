@@ -35,7 +35,7 @@
     </ul>
     <div class="nav-options">
       <search-bar class="search-bar" @search="handleSearch" />
-      <search-modal class="search-modal" @search="handleSearch" />
+      <font-awesome-icon class="search-modal-btn" :icon="['fas', 'magnifying-glass']" beat @click="handleModal" />
       <Language />
     </div>
     <button class="menu-icon" @click="toggleMenu">
@@ -54,7 +54,7 @@ import SearchBar from './SearchBar.vue'
 import Language from './Language.vue'
 import { RouterLink, useRouter, useRoute } from 'vue-router'
 import { onMounted, onUnmounted, ref } from 'vue'
-import SearchModal from './SearchModal.vue'
+import { useSearchStore } from '@/store/search'
 import SvgIcon from './SvgIcon.vue'
 
 const isMobile = ref(window.innerWidth <= 768)
@@ -81,6 +81,10 @@ const forceReload = (path: string) => {
   }
 }
 
+const searchStore = useSearchStore()
+const handleModal = () => {
+  searchStore.changeSearch(true)
+}
 const handleSearch = (val?: string) => {
   if (val) {
     router.push({ name: 'SearchResult', query: { keyword: val } })
@@ -168,7 +172,7 @@ const toggleMenu = () => {
     .search-bar {
       display: block;
     }
-    .search-modal {
+    .search-modal-btn {
       display: none;
     }
   }
@@ -191,11 +195,11 @@ const toggleMenu = () => {
     .nav-options {
       gap: 0.5rem;
       margin-right: 1rem;
+
       .search-bar {
         display: none;
       }
-
-      .search-modal {
+      .search-modal-btn {
         display: block;
       }
     }

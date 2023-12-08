@@ -52,4 +52,15 @@ const goToNext = () => {
     }
   }
 }
+
+@media (max-width: 768px) {
+  .article-navigation {
+    width: 20rem;
+    margin-left: 0;
+
+    .nav-btn {
+      margin-top: -5rem;
+    }
+  }
+}
 </style>

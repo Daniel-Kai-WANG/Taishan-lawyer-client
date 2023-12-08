@@ -15,8 +15,8 @@
     <div v-if="member" class="member-container">
       <!-- <MemberCarousel v-model:current="currentIndex" :members="members ?? []" /> -->
       <div class="image-box">
-        <img :src="member[0].avatar" class="member-avatar" />
         <div class="avatar-background"></div>
+        <img :src="member[0].avatar" class="member-avatar" />
       </div>
       <div class="member-info">
         <div class="member-desc">
@@ -152,7 +152,6 @@ const honorArray = computed(() => member[0].personalHonor.join('<br/><br/>'))
     .member-info {
       display: flex;
       flex: 1;
-      // margin-right: -11.875rem;
       flex-direction: column;
       align-items: flex-start;
       gap: 1rem;
@@ -238,6 +237,111 @@ const honorArray = computed(() => member[0].personalHonor.join('<br/><br/>'))
       .member-honor {
         width: 42rem;
         color: var(--text-color);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .member-header {
+    background-position: top center;
+    background-size: auto 100%;
+    height: 12rem;
+    z-index: unset;
+    gap: 0.8rem;
+
+    .member-title {
+      margin-top: 1.5rem;
+      font-family: Martel;
+      font-size: 1.5rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 2rem; /* 133.333% */
+      letter-spacing: 0.00625rem;
+    }
+
+    .member-content {
+      width: 10.25rem;
+      font-family: Open Sans;
+      font-size: 0.625rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 0.875rem; /* 140% */
+      letter-spacing: 0.0125rem;
+    }
+  }
+
+  .member-container {
+    flex-direction: column;
+    margin-bottom: 0rem;
+    align-items: center;
+    gap: 3.5rem;
+
+    .image-box {
+      margin-top: 3rem;
+      margin-left: 0rem;
+      width: 14.4rem;
+      height: 16.8rem;
+
+      .member-avatar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 12rem;
+        height: 15rem;
+        border-radius: 0.75rem;
+        z-index: unset;
+      }
+
+      .avatar-background {
+        width: 12rem;
+        height: 15rem;
+      }
+    }
+
+    .member-info {
+      width: 20rem;
+
+      .member-name {
+        font-family: Martel;
+        font-size: 1.8rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 2rem; /* 133.333% */
+        letter-spacing: 0.00625rem;
+      }
+
+      .member-position {
+        font-family: Montserrat;
+        font-size: 1.25rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 1.875rem; /* 150% */
+        letter-spacing: 0.0125rem;
+        padding-top: 0.2rem !important;
+      }
+
+      .member-head {
+        width: 6.4rem;
+        color: #000;
+      }
+
+      .member-detail {
+        max-width: 20rem;
+        color: var(--text-color);
+        margin-bottom: 1.5rem;
+      }
+
+      .member-fields {
+        flex-wrap: wrap;
+      }
+      .member-contact {
+        width: 20rem;
+      }
+
+      .member-honor {
+        width: 21rem !important;
+        margin-bottom: 3rem;
       }
     }
   }

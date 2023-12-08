@@ -53,9 +53,9 @@
               :news="article"
               :key="article.id"
               :keyword="keyword"
-              width="70rem"
-              :slice-number="200"
-              :end-number="150"
+              :width="isMobile ? '20rem' : '70rem'"
+              :slice-number="isMobile ? 126 : 200"
+              :end-number="isMobile ? 76 : 150"
             />
           </div>
           <h4 v-else class="noresult h4-style">没有与该模块匹配的内容</h4>
@@ -96,7 +96,9 @@ import disputes from '../../../JSON/disputes.json'
 import injury from '../../../JSON/injury.json'
 import member from '../../../JSON/members.json'
 import SvgIcon from '@/components/SvgIcon.vue'
+import useMedia from 'vue-hooks-plus/es/useMedia'
 
+const isMobile = useMedia(['(max-width: 768px)'], [true], false)
 const route = useRoute()
 const searchQuery = ref((route.query.keyword as string) || '')
 const selectedCategory = ref('article')
@@ -306,6 +308,77 @@ const selectCategory = (category: string) => {
         display: flex;
         justify-content: center;
         color: var(--text-color);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .result {
+    height: auto !important;
+
+    &-title {
+      padding: 3rem 0;
+    }
+
+    &-search {
+      width: 22rem;
+      color: var(--text-color);
+
+      &-bar {
+        width: 21rem;
+        padding-left: 1rem;
+      }
+    }
+
+    &-category {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 1rem;
+
+      &-row {
+        display: flex;
+        gap: 0.5rem;
+
+        .category-button {
+          width: 6.8rem;
+          font-family: Martel;
+          font-size: 1rem;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 1.5rem; /* 150% */
+          letter-spacing: 0.00625rem;
+        }
+      }
+      .category {
+        display: flex;
+        width: 20rem !important;
+        height: auto !important;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin-bottom: 5rem;
+
+        &.cases {
+          width: 100% !important;
+          display: flex;
+
+          .casesList {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+            gap: 3rem;
+            justify-content: center;
+          }
+        }
+
+        .noresult {
+          display: flex;
+          justify-content: center;
+          color: var(--text-color);
+        }
       }
     }
   }

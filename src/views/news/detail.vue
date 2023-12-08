@@ -154,4 +154,49 @@ const navigateToArticle = (newId: number) => {
     }
   }
 }
+
+@media (max-width: 768px) {
+  .news-container {
+    align-items: center !important;
+
+    .news-etitle {
+      margin-left: -8.5rem;
+    }
+    .news-ctitle {
+      margin-left: -5rem;
+      margin-bottom: 4rem !important;
+
+      &::after {
+        margin-left: 0rem;
+        width: 17.5rem !important;
+      }
+    }
+
+    .news-article {
+      width: 20rem !important;
+      align-items: center !important;
+
+      &-title {
+        width: 100% !important;
+        height: auto !important;
+      }
+
+      &-detail {
+        justify-content: space-between;
+        gap: 3.5rem !important;
+      }
+
+      &-body {
+        color: var(--text-color);
+      }
+
+      &-image {
+        width: 17.4rem;
+        height: 12.6rem;
+        margin-left: -1rem;
+        margin-bottom: 5rem;
+      }
+    }
+  }
+}
 </style>

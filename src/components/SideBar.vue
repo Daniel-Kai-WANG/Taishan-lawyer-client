@@ -17,24 +17,19 @@
   </div>
   <div v-if="isNewsPage" class="side-bar-list">
     <h4 class="list-title h4-style">最新法律案例</h4>
-    <router-link
-      :to="`/news/detail/${news.id}`"
-      v-for="(news, index) in latestNews"
-      :key="news.id"
-      class="list-item p-style"
-    >
-      {{ index + 1 }}. "{{ news.title }}"
+    <router-link :to="`/news/detail/${news.id}`" v-for="news in latestNews" :key="news.id" class="list-item p-style">
+      "{{ news.title }}"
     </router-link>
   </div>
   <div v-else-if="isCasePage" class="side-bar-list">
     <h4 class="list-title h4-style">相关法律知识</h4>
     <router-link
       :to="`/case/detail/${knowledge.id}/${knowledge.articleType}`"
-      v-for="(knowledge, index) in relatedCases"
+      v-for="knowledge in relatedCases"
       :key="knowledge.id"
       class="list-item p-style"
     >
-      {{ index + 1 }}. "{{ knowledge.title }}"
+      "{{ knowledge.title }}"
     </router-link>
   </div>
 </template>
@@ -140,20 +135,34 @@ const relatedCases = computed(() =>
 .side-bar-list {
   display: flex;
   flex-direction: column;
+  counter-reset: list-item;
   margin-top: 1rem;
-  gap: 0px;
+  gap: 0.5rem;
 
   .list-title {
     width: 20.5rem;
     color: var(--secondary-color);
-    padding: 1.5rem 0;
+    padding: 1.5rem 0.5rem;
   }
 
   .list-item {
     width: 20.5rem;
     color: var(--text-color);
-    text-align: left;
-    white-space: nowrap;
+    display: flex; // 添加flex布局
+    align-items: baseline; // 使序号和文本在基线对齐
+    gap: 0.5rem; // 给序号和文本之间添加一些间隙
+    padding-left: 0.5rem;
+
+    &::before {
+      content: counter(list-item) '.';
+      counter-increment: list-item;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .side-bar-schedule {
+    width: 15rem;
   }
 }
 </style>

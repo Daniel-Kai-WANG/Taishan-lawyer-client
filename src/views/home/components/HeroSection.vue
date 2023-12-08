@@ -75,10 +75,12 @@ const navigateToTeam = () => {
 
     &-content {
       width: 12.2rem;
-      position: relative;
+      gap: 0.7rem;
+      z-index: unset;
+      // position: relative;
       .hero-slogan {
-        position: absolute;
-        bottom: -0.5rem;
+        // position: absolute;
+        // bottom: -0.5rem;
         font-family: Montserrat;
         font-size: 1.25rem;
         font-style: normal;
@@ -88,9 +90,9 @@ const navigateToTeam = () => {
       }
 
       .hero-button {
-        position: absolute;
+        // position: absolute;
         width: 7.25rem;
-        top: 1.2rem;
+        // top: 1.2rem;
       }
     }
   }
