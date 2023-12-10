@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Home from '@/views/home/index.vue'
 import News from '@/views/news/index.vue'
 import NewsList from '@/views/news/list.vue'
@@ -68,7 +68,7 @@ const routes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/'),
+  history: createWebHashHistory('/'),
   routes,
   scrollBehavior(_, __, savedPosition) {
     if (savedPosition) {

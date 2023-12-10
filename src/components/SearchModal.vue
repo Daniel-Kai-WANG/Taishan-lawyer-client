@@ -9,16 +9,23 @@
             beat
             @click="performSearch"
           />
-          <input class="search-input" type="text" autofocus @keydown.enter="performSearch" v-model="searchValue" />
+          <input
+            class="search-input"
+            type="text"
+            autofocus
+            @keydown.enter="performSearch"
+            v-model="searchValue"
+            ref="searchInput"
+          />
         </div>
-        <button class="search-cancel" @click="toggleModal">关闭</button>
+        <button class="search-cancel h5-style" @click="toggleModal">关闭</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
@@ -44,16 +51,16 @@ const toggleModal = () => {
   searchStore.changeSearch(false)
 }
 
-onMounted(() => {
-  watch(
-    () => searchStore.search,
-    (newVal) => {
-      if (newVal && searchInput.value instanceof HTMLInputElement) {
-        searchInput.value.focus()
-      }
-    },
-  )
-})
+watch(
+  () => searchStore.search,
+  (newValue) => {
+    if (newValue) {
+      nextTick(() => {
+        searchInput.value?.focus()
+      })
+    }
+  },
+)
 </script>
 
 <style lang="scss" scoped>
@@ -78,6 +85,7 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     background-color: rgba(0, 0, 0, 0.5);
 
     .search-modal {

@@ -62,7 +62,7 @@ const handleReturn = () => {
 
   .search-input {
     width: 0;
-    padding: 0;
+    padding-left: 0.5rem;
     transition: all 0.5s ease;
     height: 2rem;
     border: none;

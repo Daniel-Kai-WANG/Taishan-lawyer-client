@@ -10,7 +10,10 @@
         >
       </li>
       <li class="nav-menu-item link-text-style" @click="toggleMenu">
-        <router-link to="/news" :class="{ 'is-active': route.path === '/news' }" @click.prevent="forceReload('/news')"
+        <router-link
+          to="/news"
+          :class="{ 'is-active': route.path === '/news/list' }"
+          @click.prevent="forceReload('/news')"
           >以案说法</router-link
         >
       </li>
@@ -87,7 +90,7 @@ const handleModal = () => {
 }
 const handleSearch = (val?: string) => {
   if (val) {
-    router.push({ name: 'SearchResult', query: { keyword: val } })
+    router.push({ name: 'SearchResult', params: { keyword: val } })
   }
 }
 

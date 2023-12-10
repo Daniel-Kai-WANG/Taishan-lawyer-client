@@ -120,6 +120,7 @@ onMounted(() => {
 
     .news-pagination {
       padding-left: 0;
+      z-index: 0;
     }
   }
 }

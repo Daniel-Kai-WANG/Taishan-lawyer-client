@@ -15,4 +15,4 @@
 - step 6. docker build -t lawyer -f Dockerfile .
 - step 7. docker ps
 - step 8. docker kill 正在执行的容器id
-- step 9. docker run -d -p 80:80 lawyer
+- step 9. docker run -d -p 80:80 -p 443:443 lawyer

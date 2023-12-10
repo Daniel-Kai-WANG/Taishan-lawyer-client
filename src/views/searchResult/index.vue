@@ -12,14 +12,14 @@
         <SvgIcon name="largeSearch" style="width: 2rem; height: 2rem" />
       </button>
     </div>
-    <!-- <el-skeleton v-if="isLoading" :rows="10" animated class="search-loading" /> -->
+    <el-skeleton v-if="isLoading" :rows="10" animated class="search-loading" />
     <template v-if="searchResult">
       <h4 class="result-response h4-style" v-if="totalResults">
-        共为您找到{{ totalResults }}条与“<span class="search-keyword">{{ keyword }}</span
+        共为您找到{{ totalResults }}条与“<span class="search-keyword">{{ state.keyword }}</span
         >”相关的结果
       </h4>
-      <h4 class="result-response h4-style" v-if="!totalResults && keyword">
-        未找到与“<span class="search-keyword">{{ keyword }}</span
+      <h4 class="result-response h4-style" v-if="!totalResults && state.keyword">
+        未找到与“<span class="search-keyword">{{ state.keyword }}</span
         >”相关的结果
       </h4>
       <div class="result-category" v-if="totalResults">
@@ -52,7 +52,7 @@
               v-for="article in searchResult.data.articles"
               :news="article"
               :key="article.id"
-              :keyword="keyword"
+              :keyword="state.keyword"
               :width="isMobile ? '20rem' : '70rem'"
               :slice-number="isMobile ? 126 : 200"
               :end-number="isMobile ? 76 : 150"
@@ -62,7 +62,12 @@
         </div>
         <div class="category cases" v-if="selectedCategory === 'case'">
           <div v-if="searchResult.data.total?.casesLength" class="casesList">
-            <CaseList v-for="caze in searchResult.data.cases" :knowledge="caze" :key="caze.title" :keyword="keyword" />
+            <CaseList
+              v-for="caze in searchResult.data.cases"
+              :knowledge="caze"
+              :key="caze.title"
+              :keyword="state.keyword"
+            />
           </div>
           <h4 v-else class="h4-style noresult">没有与该模块匹配的内容</h4>
         </div>
@@ -72,7 +77,7 @@
               v-for="member in searchResult.data.members"
               :member="member"
               key="member.id"
-              :keyword="keyword"
+              :keyword="state.keyword"
             />
           </div>
           <h4 v-else class="h4-style noresult">没有与该模块匹配的内容</h4>
@@ -83,38 +88,45 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, onMounted, ref } from 'vue'
 // import axios from 'axios'
 import { ApiResponse, Article, Case, Member } from '@/typings'
 import NewsListItem from '@/components/NewsListItem.vue'
 import MemberListItem from '@/views/team/components/MemberListItem.vue'
 // import { useQuery } from '@tanstack/vue-query'
 import CaseList from '../case/components/CaseList.vue'
-import article from '../../../JSON/newsdetail.json'
-import disputes from '../../../JSON/disputes.json'
-import injury from '../../../JSON/injury.json'
-import member from '../../../JSON/members.json'
+import article from '~/JSON/newsdetail.json'
+import disputes from '~/JSON/disputes.json'
+import injury from '~/JSON/injury.json'
+import member from '~/JSON/members.json'
 import SvgIcon from '@/components/SvgIcon.vue'
 import useMedia from 'vue-hooks-plus/es/useMedia'
+import { useQuery } from '@tanstack/vue-query'
+import { useUrlState } from 'vue-hooks-plus'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const state = useUrlState<{ keyword?: string }>(
+  { keyword: route.query.keyword as any },
+  {
+    localStorageKey: 'localStorageKey',
+    // routerPushFn: (route) => router.push(),
+  },
+)
 
 const isMobile = useMedia(['(max-width: 768px)'], [true], false)
-const route = useRoute()
-const searchQuery = ref((route.query.keyword as string) || '')
 const selectedCategory = ref('article')
 const pageSize = ref(10)
 const pageNumber = ref(100)
-const keyword = ref((route.query.keyword as string) || '')
 const articlesList = article['data']
 const disputesList = disputes['data']
 const injuryList = injury['data']
 const casesList = [...disputesList, ...injuryList]
 const memberList = member['data']
-
-const handleSearch = () => {
-  keyword.value = searchQuery.value
-}
-
+const props = defineProps<{
+  keyword?: string
+}>()
+const searchQuery = ref((props.keyword as string) || '')
 type SearchResult = {
   articles?: Article[]
   members?: Member[]
@@ -129,73 +141,65 @@ type SearchResult = {
   pageNumber?: number
 }
 
-const searchResult = computed((): ApiResponse<SearchResult> => {
-  if (!keyword.value) return { data: {} }
-  const articleResult = articlesList.filter(
-    (article) => article.title.includes(keyword.value) || article.content.includes(keyword.value),
-  )
-  const casesResult = casesList.filter(
-    (caze) => caze.title.includes(keyword.value) || caze.content.includes(keyword.value),
-  )
-  const memberResult = memberList.filter(
-    (member) => member.name.includes(keyword.value) || member.fields.includes(keyword.value),
-  )
-  const articleLength = articleResult.length
-  const casesLength = casesResult.length
-  const memberLength = memberResult.length
+const {
+  data: searchResult,
+  isLoading,
+  refetch,
+} = useQuery<ApiResponse<SearchResult>>({
+  queryKey: ['search', state.value.keyword, selectedCategory, pageSize, pageNumber],
+  enabled: false,
+  queryFn: async () => {
+    // if (!searchQuery.value) return { data: {} }
+    const articleResult = articlesList.filter(
+      (article) => article.title.includes(searchQuery.value) || article.content.includes(searchQuery.value),
+    )
+    const casesResult = casesList.filter(
+      (caze) => caze.title.includes(searchQuery.value) || caze.content.includes(searchQuery.value),
+    )
+    const memberResult = memberList.filter(
+      (member) => member.name.includes(searchQuery.value) || member.fields.includes(searchQuery.value),
+    )
+    const articleLength = articleResult.length
+    const casesLength = casesResult.length
+    const memberLength = memberResult.length
 
-  return {
-    data: {
-      articles: selectedCategory.value === 'article' ? articleResult : undefined,
-      members: selectedCategory.value === 'member' ? memberResult : undefined,
-      cases: selectedCategory.value === 'case' ? casesResult : undefined,
-      total: {
-        articleLength,
-        memberLength,
-        casesLength,
+    return {
+      data: {
+        articles: selectedCategory.value === 'article' ? articleResult : undefined,
+        members: selectedCategory.value === 'member' ? memberResult : undefined,
+        cases: selectedCategory.value === 'case' ? casesResult : undefined,
+        total: {
+          articleLength,
+          memberLength,
+          casesLength,
+        },
+        type: selectedCategory.value,
+        pageSize: pageSize.value,
+        pageNumber: pageNumber.value,
       },
-      type: selectedCategory.value,
-      pageSize: pageSize.value,
-      pageNumber: pageNumber.value,
-    },
-  }
+    }
+  },
 })
-console.log(searchResult.value.data)
+
+onMounted(() => {
+  refetch()
+})
+
+const handleSearch = () => {
+  state.value = Object.assign({}, { keyword: searchQuery.value })
+  refetch()
+}
 
 const totalResults = computed(() => {
   if (!searchResult.value) return 0
+  console.log(searchResult.value.data)
   const { articleLength, memberLength, casesLength } = searchResult.value.data.total!
   return articleLength + memberLength + casesLength
 })
-console.log(totalResults.value)
 
 const selectCategory = (category: string) => {
   selectedCategory.value = category
 }
-
-// const { data: searchResult, isLoading } = useQuery({
-//   queryKey: ['search', keyword, selectedCategory, pageSize, pageNumber],
-//   queryFn: async () => {
-//     try {
-//       const response = await axios.get<ApiResponse<SearchResult>>(`/api/search`, {
-//         params: {
-//           keyword: keyword.value,
-//           type: selectedCategory.value,
-//           pageSize: pageSize.value,
-//           pageNumber: pageNumber.value,
-//         },
-//       })
-//       if (response.status === 200 && response.data.data) {
-//         return response.data.data
-//       } else {
-//         throw new Error('Case data is not available')
-//       }
-//     } catch (err) {
-//       console.error(err)
-//       throw new Error('Error fetching case data')
-//     }
-//   },
-// })
 </script>
 
 <style lang="scss" scoped>
