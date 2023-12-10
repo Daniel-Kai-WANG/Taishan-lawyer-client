@@ -117,6 +117,7 @@ watch(
           flex: 1;
           height: 100%;
           width: 100%;
+          font-size: 1rem;
           background-color: transparent;
           z-index: 998;
           caret-color: var(--photo-background);

@@ -5,7 +5,7 @@
       <Carousel
         :itemsToShow="isMobile ? 1 : 3"
         :wrapAround="true"
-        :autoplay="0"
+        :autoplay="3000"
         :paginationEnabled="false"
         :navigationEnabled="false"
         :mouseDrag="true"

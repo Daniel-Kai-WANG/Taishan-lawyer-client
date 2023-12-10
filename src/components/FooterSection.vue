@@ -6,8 +6,14 @@
           <img src="https://i.imgs.ovh/2023/11/24/Mofgs.png" />
         </div>
         <div class="webpage-filing">
-          <a href="https://beian.miit.gov.cn"><span class="p-style">苏ICP备2023046751号</span></a>
-          <!-- <span class="p-style">备案号2:34567789</span> -->
+          <a href="https://beian.mps.gov.cn/#/query/webSearch?code=32041102001053\">
+            <img class="webpage-img" src="https://i.imgs.ovh/2023/12/10/fU5kJ.png" /><span class="p-style"
+              >苏公网安备32041102001053号</span
+            >
+          </a>
+          <a href="https://beian.miit.gov.cn">
+            <span class="p-style">苏ICP备2023046751号</span>
+          </a>
         </div>
       </div>
       <div class="footer-section">
@@ -114,10 +120,22 @@
         margin-left: 0.5rem;
         gap: 2.62rem;
 
-        span {
-          width: 10.625rem;
-          height: 2rem;
-          color: var(--photo-background);
+        a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .webpage-img {
+            width: 1rem;
+            height: 1rem;
+            padding-right: 0.5rem;
+            padding-bottom: 0.2rem;
+          }
+
+          span {
+            width: auto;
+            height: 2rem;
+            color: var(--photo-background);
+          }
         }
       }
 
@@ -166,6 +184,7 @@
       margin-top: 0;
 
       .footer-logo {
+        margin: 0 auto;
         scale: 0.6;
       }
 
@@ -173,11 +192,13 @@
         margin-left: 0 !important;
         gap: 0 !important;
         justify-content: center;
+        flex-direction: column !important;
 
-        span {
-          text-align: center;
-          width: 10.625rem;
-          height: auto;
+        a {
+          span {
+            text-align: center;
+            height: auto;
+          }
         }
       }
 
