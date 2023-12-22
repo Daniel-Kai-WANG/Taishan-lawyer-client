@@ -33,6 +33,7 @@ const title = computed(() => {
 const desc = computed(() => {
   const keyword = props.keyword
   const newsDesc = props.news.content
+
   let sliceDesc = newsDesc.length > props.sliceNumber ? newsDesc.slice(0, props.sliceNumber) + '......' : newsDesc
   if (!keyword) return sliceDesc
   const index = newsDesc.indexOf(keyword)
@@ -66,11 +67,11 @@ const desc = computed(() => {
       flex-direction: column;
       width: 100%;
       justify-content: flex-start;
-      gap: 1.875rem;
+      gap: 1rem;
 
       &-title {
         width: 100%;
-        height: 1.875rem;
+        height: auto;
         color: var(--secondary-color);
         margin-bottom: 0.5rem;
       }
@@ -78,7 +79,7 @@ const desc = computed(() => {
       &-body {
         width: 100%;
         height: 7.875rem;
-        color: #000;
+        color: var(--text-color);
       }
     }
 
@@ -103,14 +104,7 @@ const desc = computed(() => {
 
 @media (max-width: 768px) {
   .news-article {
-    gap: 1.3rem;
-
-    &-title {
-      width: 100%;
-      height: 1.875rem;
-      color: var(--secondary-color);
-      margin-bottom: 0.5rem;
-    }
+    gap: 0.5rem !important;
 
     &-body {
       width: 100%;

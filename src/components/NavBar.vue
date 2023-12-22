@@ -90,7 +90,7 @@ const handleModal = () => {
 }
 const handleSearch = (val?: string) => {
   if (val) {
-    router.push({ name: 'SearchResult', params: { keyword: val } })
+    router.push({ name: 'SearchResult', query: { keyword: val } })
   }
 }
 

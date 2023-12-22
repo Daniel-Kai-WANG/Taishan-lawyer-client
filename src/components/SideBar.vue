@@ -6,13 +6,8 @@
   <div class="side-bar-schedule">
     <p class="p-style">
       <span class="h6-style">工作日上班时间</span>
-      上午：8:00-12:00<br />
-      下午：14:00-20:00<br />
-      <span class="h6-style">周末上班时间</span>
-      周日休息<br />
-      <span class="h6-style">周六</span>
-      上午：8:00-12:00<br />
-      下午：14:00-20:00<br />
+      9:00-17:00<br />
+      <span class="h6-style">周六、日休息</span>
     </p>
   </div>
   <div v-if="isNewsPage" class="side-bar-list">

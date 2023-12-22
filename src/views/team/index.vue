@@ -29,20 +29,15 @@
         <div class="member-fields">
           <span class="field-item h5-style" v-for="field in fieldArray" :key="field">{{ field }}</span>
         </div>
-        <h4 class="member-head h3-style">联系方式</h4>
-        <div class="member-contact">
-          <div class="phone">
-            <SvgIcon name="phone" style="width: 1rem; height: 1rem" />
-            <h6 class="contact-detail h6-style">{{ member[0].phoneNumber }}</h6>
-          </div>
-          <div class="wechat">
-            <SvgIcon name="wechat" style="width: 1rem; height: 1rem" />
-            <h6 class="contact-detail h6-style">{{ member[0].wechat }}</h6>
-          </div>
+        <h3 class="member-head h3-style">联系方式</h3>
+        <div class="member-phone">
+          <SvgIcon name="phone" style="width: 1rem; height: 1rem" />
+          <h6 class="contact-detail h6-style">{{ member[0].phoneNumber }}</h6>
         </div>
-
-        <h3 class="member-head h3-style">个人荣誉</h3>
-        <p class="member-honor p-style" v-html="honorArray"></p>
+        <h3 class="member-head h3-style">扫码咨询</h3>
+        <div class="member-wechat">
+          <img :src="member[0].wechat" class="wechat-image" />
+        </div>
       </div>
     </div>
   </div>
@@ -70,7 +65,6 @@ import members from '../../../JSON/members.json'
 const member = members['data']
 
 const fieldArray = computed(() => member[0].fields.split(',') || [])
-const honorArray = computed(() => member[0].personalHonor.join('<br/><br/>'))
 </script>
 
 <style lang="scss" scoped>
@@ -129,6 +123,7 @@ const honorArray = computed(() => member[0].personalHonor.join('<br/><br/>'))
       height: 24rem;
 
       .member-avatar {
+        object-fit: cover;
         position: absolute;
         bottom: 0;
         left: 0;
@@ -211,32 +206,30 @@ const honorArray = computed(() => member[0].personalHonor.join('<br/><br/>'))
           border-radius: 1rem;
         }
       }
-      .member-contact {
+      .member-phone {
         display: flex;
         flex-direction: row;
         align-items: center;
         width: 22.9375rem;
-        margin-top: -0.625rem;
         margin-bottom: 1.3rem;
-        gap: 2rem;
-
-        .phone,
-        .wechat {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 0.5rem;
-
-          .contact-detail {
-            max-width: 9rem;
-            color: var(--text-color);
-          }
+        gap: 0.5rem;
+        .contact-detail {
+          max-width: 9rem;
+          color: var(--text-color);
         }
       }
 
-      .member-honor {
-        width: 42rem;
-        color: var(--text-color);
+      .member-wechat {
+        display: flex;
+        width: 9.4rem;
+        height: 9.4rem;
+        justify-content: flex-start;
+        margin-bottom: 2rem;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
   }
@@ -335,13 +328,8 @@ const honorArray = computed(() => member[0].personalHonor.join('<br/><br/>'))
       .member-fields {
         flex-wrap: wrap;
       }
-      .member-contact {
+      .member-phone {
         width: 20rem;
-      }
-
-      .member-honor {
-        width: 21rem !important;
-        margin-bottom: 3rem;
       }
     }
   }

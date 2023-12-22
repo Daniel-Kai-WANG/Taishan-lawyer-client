@@ -9,7 +9,7 @@
         <p class="p-style">发布时间：{{ article.time }}</p>
         <p class="p-style">作者：{{ article.author }}</p>
       </span>
-      <p class="news-article-body p-style">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ article.content }}</p>
+      <p class="news-article-body p-style" v-html="articleContent"></p>
       <img :src="article.picture" alt="image" class="news-article-image" />
     </div>
     <ArticleNavigation
@@ -29,13 +29,17 @@ import { useRoute, useRouter } from 'vue-router'
 // import { ApiResponse, Article } from '@/typings'
 import ArticleNavigation from '@/components/ArticleNavigation.vue'
 import news from '../../../JSON/newsdetail.json'
-import { watch } from 'vue'
+import { computed, watch } from 'vue'
 
 const router = useRouter()
 const route = useRoute()
 const newsDetail = news['data']
 let id = route.params.id as string
 let article = newsDetail.find((article) => article.id.toString() === id)
+const articleContent = computed(() => {
+  if (!article) return ''
+  return article.content.replace(/\n/g, '<br><br>')
+})
 let prevId = parseInt(id) > 1 ? parseInt(id) - 1 : undefined
 let nextId = parseInt(id) < newsDetail.length ? parseInt(id) + 1 : undefined
 watch(
@@ -123,9 +127,9 @@ const navigateToArticle = (newId: number) => {
 
     &-title {
       width: 42rem;
-      height: 3.5rem;
+      height: auto;
       color: var(--secondary-color);
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
 
     &-detail {
@@ -140,7 +144,7 @@ const navigateToArticle = (newId: number) => {
     }
 
     &-body {
-      color: #000;
+      color: var(--text-color);
       margin-top: 0.5rem;
     }
 
@@ -178,12 +182,13 @@ const navigateToArticle = (newId: number) => {
 
       &-title {
         width: 100% !important;
-        height: auto !important;
       }
 
       &-detail {
-        justify-content: space-between;
-        gap: 3.5rem !important;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem !important;
       }
 
       &-body {

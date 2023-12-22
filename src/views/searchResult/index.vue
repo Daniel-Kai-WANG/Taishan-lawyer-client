@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 // import axios from 'axios'
 import { ApiResponse, Article, Case, Member } from '@/typings'
 import NewsListItem from '@/components/NewsListItem.vue'
@@ -104,15 +104,12 @@ import useMedia from 'vue-hooks-plus/es/useMedia'
 import { useQuery } from '@tanstack/vue-query'
 import { useUrlState } from 'vue-hooks-plus'
 import { useRoute } from 'vue-router'
+import router from '@/router'
 
 const route = useRoute()
-const state = useUrlState<{ keyword?: string }>(
-  { keyword: route.query.keyword as any },
-  {
-    localStorageKey: 'localStorageKey',
-    // routerPushFn: (route) => router.push(),
-  },
-)
+console.log(route.query)
+
+const state = useUrlState<{ keyword?: string }>({ keyword: route.query.keyword as any }, { routerPush: router.push })
 
 const isMobile = useMedia(['(max-width: 768px)'], [true], false)
 const selectedCategory = ref('article')
@@ -123,10 +120,20 @@ const disputesList = disputes['data']
 const injuryList = injury['data']
 const casesList = [...disputesList, ...injuryList]
 const memberList = member['data']
-const props = defineProps<{
-  keyword?: string
-}>()
-const searchQuery = ref((props.keyword as string) || '')
+const searchQuery = ref((state.value.keyword as string) || '')
+
+watch(
+  () => state.value,
+  (newValue) => {
+    console.log(state.value.keyword, newValue)
+
+    if (newValue.keyword) {
+      searchQuery.value = newValue.keyword
+      refetch()
+    }
+  },
+)
+
 type SearchResult = {
   articles?: Article[]
   members?: Member[]
@@ -149,7 +156,8 @@ const {
   queryKey: ['search', state.value.keyword, selectedCategory, pageSize, pageNumber],
   enabled: false,
   queryFn: async () => {
-    // if (!searchQuery.value) return { data: {} }
+    console.log(searchQuery.value, state.value.keyword, selectedCategory.value)
+
     const articleResult = articlesList.filter(
       (article) => article.title.includes(searchQuery.value) || article.content.includes(searchQuery.value),
     )
@@ -192,13 +200,13 @@ const handleSearch = () => {
 
 const totalResults = computed(() => {
   if (!searchResult.value) return 0
-  console.log(searchResult.value.data)
   const { articleLength, memberLength, casesLength } = searchResult.value.data.total!
   return articleLength + memberLength + casesLength
 })
 
 const selectCategory = (category: string) => {
   selectedCategory.value = category
+  refetch()
 }
 </script>
 

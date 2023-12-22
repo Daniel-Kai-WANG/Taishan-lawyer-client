@@ -18,10 +18,10 @@ import SideBar from '@/components/SideBar.vue'
   display: flex;
   flex-direction: row;
   max-width: 70rem;
-  min-height: 100rem;
+  height: auto;
   background-color: var(--photo-background);
-  margin-bottom: 1.25rem;
   margin: 0 auto;
+  margin-bottom: 10rem;
 
   &-container {
     display: flex;

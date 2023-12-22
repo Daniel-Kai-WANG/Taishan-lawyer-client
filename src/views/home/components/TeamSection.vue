@@ -61,7 +61,7 @@
       <router-link :to="`/team`" class="member-card">
         <div class="member-info">
           <img :src="member[0].avatar" alt="avatar" class="member-avatar" />
-          <h3 class="member-title h3-style">{{ member[0].name }}律师</h3>
+          <h3 class="member-title h3-style">{{ member[0].name }}</h3>
         </div>
         <div class="member-description">
           <h4 class="h4-style">泰杉公司{{ member[0].position }}</h4>
@@ -77,7 +77,7 @@
 
 <script setup lang="ts">
 // import { reactive } from 'vue'
-import members from '../../../../JSON/members.json'
+import members from '~/JSON/members.json'
 // import { Carousel, Slide } from 'vue3-carousel'
 // import 'vue3-carousel/dist/carousel.css'
 // import { ApiResponse, Member } from '@/typings'
@@ -152,6 +152,7 @@ const member = members['data']
         padding-left: 6rem;
         justify-content: center;
         .member-avatar {
+          object-fit: cover;
           width: 11rem;
           height: 14rem;
           border-radius: 3.5rem;
@@ -159,7 +160,7 @@ const member = members['data']
         }
         .member-title {
           color: var(--text-color);
-          padding-left: 1.6rem;
+          padding-left: 3.25rem;
           margin-top: 1rem;
         }
       }

@@ -8,7 +8,7 @@ import SearchModal from './components/SearchModal.vue'
 
 <template>
   <nav-bar />
-  <router-view />
+  <router-view :key="$route.fullPath" />
   <footer-section />
   <back-to-top />
   <search-modal />
