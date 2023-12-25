@@ -25,8 +25,8 @@
 - step 1. yarn build
 - step 2. tar -czvf lawyer.tar.gz --exclude=.git .
 - step 3. upload to tencent cloud(scp)
-- step 4. tar -zxvf lawyer.tar.gz
-- step 5. su
+- step 4. su
+- step 5. tar -zxvf lawyer.tar.gz
 - step 6. docker build -t lawyer -f Dockerfile .
 - step 7. docker ps
 - step 8. docker kill 正在执行的容器id
