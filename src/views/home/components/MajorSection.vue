@@ -1,9 +1,9 @@
 <template>
   <div class="major">
     <div class="major-content">
-      <h2 class="major-title h2-style">服务亮点</h2>
+      <h2 class="major-title h2-style">公司简介</h2>
       <h4 class="major-desc h4-style">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们专注于提供专业、平价的劳动纠纷和工伤事故赔偿支持。我们处理劳动合同、工资争议、职场歧视等问题，并全力维护工伤受害者的权利，包括争取公平的赔偿。此外，我们还提供免费或低成本的法律咨询，特别关注低收入和社会弱势群体，致力于使法律服务真正为普通民众所承担和受益。
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;泰杉法律咨询公司专注于提供专业、平价的劳动纠纷和工伤事故赔偿支持。我们处理劳动合同、工资争议、职场歧视等问题，并全力维护工伤受害者的权利，包括争取公平的赔偿。此外，我们还提供免费或低成本的法律咨询，特别关注低收入和社会弱势群体，致力于使法律服务真正为普通民众所承担和受益。
       </h4>
       <Carousel
         :itemsToShow="isMobile ? 1 : 3"

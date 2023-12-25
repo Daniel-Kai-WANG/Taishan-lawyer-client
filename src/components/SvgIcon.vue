@@ -1,11 +1,12 @@
 <script setup lang="ts">
 defineProps<{
   name: string
+  color?: string
 }>()
 </script>
 
 <template>
-  <svg aria-hidden="true">
+  <svg aria-hidden="true" :style="{ fill: color }">
     <use :href="`#${name}`" />
   </svg>
 </template>
